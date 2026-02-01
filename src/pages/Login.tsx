@@ -56,7 +56,7 @@ const Login = () => {
           </div>
           <CardTitle className="text-2xl font-bold">Welcome to DentaCare</CardTitle>
           <CardDescription className="text-muted-foreground">
-            Sign in to access your clinic dashboard
+            Sign in with your clinic's Google account
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
@@ -97,9 +97,12 @@ const Login = () => {
             {isSigningIn ? 'Signing in...' : 'Continue with Google'}
           </Button>
 
-          <p className="text-center text-xs text-muted-foreground">
-            By signing in, you agree to our Terms of Service and Privacy Policy
-          </p>
+          <div className="rounded-lg border border-border bg-muted/30 p-3">
+            <p className="text-center text-xs text-muted-foreground">
+              <strong className="text-foreground">Note:</strong> Only pre-registered clinic accounts can sign in. 
+              Contact your administrator if you need access.
+            </p>
+          </div>
         </CardContent>
       </Card>
     </div>

@@ -14,7 +14,83 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      appointments: {
+        Row: {
+          clinic_id: string
+          created_at: string
+          end_time: string
+          id: string
+          organization_id: string | null
+          patient_name: string
+          patient_phone_masked: string | null
+          reason: string | null
+          source: string
+          start_time: string
+          status: string
+        }
+        Insert: {
+          clinic_id: string
+          created_at?: string
+          end_time: string
+          id?: string
+          organization_id?: string | null
+          patient_name: string
+          patient_phone_masked?: string | null
+          reason?: string | null
+          source?: string
+          start_time: string
+          status?: string
+        }
+        Update: {
+          clinic_id?: string
+          created_at?: string
+          end_time?: string
+          id?: string
+          organization_id?: string | null
+          patient_name?: string
+          patient_phone_masked?: string | null
+          reason?: string | null
+          source?: string
+          start_time?: string
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "appointments_clinic_id_fkey"
+            columns: ["clinic_id"]
+            isOneToOne: false
+            referencedRelation: "clinics"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      clinics: {
+        Row: {
+          created_at: string
+          email: string | null
+          id: string
+          name: string
+          organization_id: string | null
+          owner_user_id: string
+        }
+        Insert: {
+          created_at?: string
+          email?: string | null
+          id?: string
+          name: string
+          organization_id?: string | null
+          owner_user_id: string
+        }
+        Update: {
+          created_at?: string
+          email?: string | null
+          id?: string
+          name?: string
+          organization_id?: string | null
+          owner_user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

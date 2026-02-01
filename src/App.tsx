@@ -4,9 +4,11 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "@/hooks/useAuth";
-import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
+import { ClinicProvider } from "@/hooks/useClinic";
+import { ClinicProtectedRoute } from "@/components/auth/ClinicProtectedRoute";
 import Index from "./pages/Index";
 import Login from "./pages/Login";
+import AccessDenied from "./pages/AccessDenied";
 import Dashboard from "./pages/Dashboard";
 import CalendarPage from "./pages/CalendarPage";
 import Settings from "./pages/Settings";
@@ -17,26 +19,29 @@ const queryClient = new QueryClient();
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <AuthProvider>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="/login" element={<Login />} />
-            
-            {/* Protected Routes */}
-            <Route element={<ProtectedRoute />}>
-              <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/calendar" element={<CalendarPage />} />
-              <Route path="/settings" element={<Settings />} />
-            </Route>
+      <ClinicProvider>
+        <TooltipProvider>
+          <Toaster />
+          <Sonner />
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<Index />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/access-denied" element={<AccessDenied />} />
+              
+              {/* Protected Routes - require both auth AND clinic */}
+              <Route element={<ClinicProtectedRoute />}>
+                <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/calendar" element={<CalendarPage />} />
+                <Route path="/settings" element={<Settings />} />
+              </Route>
 
-            {/* Catch-all route */}
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </BrowserRouter>
-      </TooltipProvider>
+              {/* Catch-all route */}
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </BrowserRouter>
+        </TooltipProvider>
+      </ClinicProvider>
     </AuthProvider>
   </QueryClientProvider>
 );
