@@ -35,7 +35,7 @@ export function AppSidebar() {
         "border-b border-sidebar-border transition-all duration-300", 
         collapsed ? "p-2" : "p-4"
       )}>
-        <div className="flex items-center justify-between">
+        <div className={cn("flex items-center", collapsed ? "justify-center" : "justify-between")}>
           <div className={cn(
             "flex items-center gap-3 transition-all duration-300",
             collapsed && "justify-center"
