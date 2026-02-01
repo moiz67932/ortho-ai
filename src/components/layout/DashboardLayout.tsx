@@ -22,7 +22,7 @@ interface DashboardLayoutProps {
 }
 
 function DashboardHeader({ title }: { title: string }) {
-  const { state } = useSidebar();
+  const { state, toggleSidebar } = useSidebar();
   const { user, signOut } = useAuth();
   const navigate = useNavigate();
   const collapsed = state === 'collapsed';
@@ -41,11 +41,14 @@ function DashboardHeader({ title }: { title: string }) {
   return (
     <header className="sticky top-0 z-10 flex h-16 items-center justify-between border-b border-border bg-card/80 px-4 backdrop-blur-sm lg:px-6">
       <div className="flex items-center gap-4">
-        <SidebarTrigger>
-          <Button variant="ghost" size="icon" className="h-9 w-9">
-            <Menu className="h-5 w-5" />
-          </Button>
-        </SidebarTrigger>
+        <Button 
+          variant="ghost" 
+          size="icon" 
+          className="h-9 w-9 md:hidden" 
+          onClick={toggleSidebar}
+        >
+          <Menu className="h-5 w-5" />
+        </Button>
         <h1 className="text-xl font-semibold text-foreground">{title}</h1>
       </div>
 
