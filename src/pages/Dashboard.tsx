@@ -1,43 +1,53 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useMemo } from 'react';
 import { DashboardLayout } from '@/components/layout/DashboardLayout';
 import { KPICard } from '@/components/dashboard/KPICard';
 import { AppointmentsTable } from '@/components/dashboard/AppointmentsTable';
 import { NextAppointmentCard } from '@/components/dashboard/NextAppointmentCard';
-import { mockAppointments } from '@/data/mockAppointments';
+import { useAppointments } from '@/hooks/useAppointments';
 import { Calendar, Clock, CalendarCheck, Bot } from 'lucide-react';
-import { isToday, isFuture, isAfter } from 'date-fns';
+import { isToday, isFuture, isAfter, parseISO } from 'date-fns';
+import type { Appointment } from '@/types/database';
+
+// Convert database appointment to display format
+const toDisplayAppointment = (apt: Appointment) => ({
+  id: apt.id,
+  patientName: apt.patient_name,
+  appointmentTime: parseISO(apt.start_time),
+  reason: apt.reason || '',
+  status: apt.status,
+  source: apt.source,
+});
 
 const Dashboard = () => {
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    // Simulate data loading
-    const timer = setTimeout(() => setLoading(false), 1200);
-    return () => clearTimeout(timer);
-  }, []);
+  const { appointments, loading } = useAppointments();
 
   const todayAppointments = useMemo(
-    () => mockAppointments.filter((apt) => isToday(apt.appointmentTime)),
-    []
+    () => appointments.filter((apt) => isToday(parseISO(apt.start_time))),
+    [appointments]
   );
 
   const upcomingAppointments = useMemo(
-    () => mockAppointments.filter((apt) => isFuture(apt.appointmentTime) && !isToday(apt.appointmentTime)),
-    []
+    () => appointments.filter((apt) => isFuture(parseISO(apt.start_time)) && !isToday(parseISO(apt.start_time))),
+    [appointments]
   );
 
   const aiBookedAppointments = useMemo(
-    () => mockAppointments.filter((apt) => apt.source === 'ai'),
-    []
+    () => appointments.filter((apt) => apt.source === 'ai'),
+    [appointments]
   );
 
   const nextAppointment = useMemo(() => {
     const now = new Date();
-    const futureAppointments = mockAppointments
-      .filter((apt) => isAfter(apt.appointmentTime, now) && apt.status === 'scheduled')
-      .sort((a, b) => a.appointmentTime.getTime() - b.appointmentTime.getTime());
-    return futureAppointments[0] || null;
-  }, []);
+    const futureAppointments = appointments
+      .filter((apt) => isAfter(parseISO(apt.start_time), now) && apt.status === 'scheduled')
+      .sort((a, b) => parseISO(a.start_time).getTime() - parseISO(b.start_time).getTime());
+    return futureAppointments[0] ? toDisplayAppointment(futureAppointments[0]) : null;
+  }, [appointments]);
+
+  const displayTodayAppointments = useMemo(
+    () => todayAppointments.map(toDisplayAppointment),
+    [todayAppointments]
+  );
 
   return (
     <DashboardLayout title="Dashboard">
@@ -58,7 +68,7 @@ const Dashboard = () => {
           />
           <KPICard
             title="Total Appointments"
-            value={mockAppointments.length}
+            value={appointments.length}
             icon={CalendarCheck}
             loading={loading}
           />
@@ -66,7 +76,6 @@ const Dashboard = () => {
             title="AI-Booked"
             value={aiBookedAppointments.length}
             icon={Bot}
-            trend={{ value: 12, isPositive: true }}
             loading={loading}
           />
         </div>
@@ -75,7 +84,7 @@ const Dashboard = () => {
         <div className="grid gap-6 lg:grid-cols-3">
           <div className="lg:col-span-2">
             <AppointmentsTable
-              appointments={todayAppointments}
+              appointments={displayTodayAppointments}
               loading={loading}
             />
           </div>
