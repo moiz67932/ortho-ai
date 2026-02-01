@@ -75,7 +75,7 @@ export function AppSidebar() {
               {menuItems.map((item) => {
                 const isActive = location.pathname === item.url;
                 return (
-                  <SidebarMenuItem key={item.title}>
+                  <SidebarMenuItem key={item.title} className={cn(collapsed && "flex justify-center")}>
                     <SidebarMenuButton
                       asChild
                       isActive={isActive}
