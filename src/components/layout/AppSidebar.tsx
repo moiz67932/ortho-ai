@@ -64,11 +64,9 @@ export function AppSidebar() {
               </div>
             )}
           </div>
-          {!collapsed && (
-            <SidebarTrigger className="h-8 w-8 text-muted-foreground hover:text-foreground">
-              <ChevronLeft className="h-4 w-4" />
-            </SidebarTrigger>
-          )}
+          <SidebarTrigger className="h-8 w-8 text-muted-foreground hover:text-foreground">
+            <ChevronLeft className={cn("h-4 w-4 transition-transform", collapsed && "rotate-180")} />
+          </SidebarTrigger>
         </div>
       </SidebarHeader>
 
@@ -106,15 +104,7 @@ export function AppSidebar() {
         </SidebarGroup>
       </SidebarContent>
 
-      <SidebarFooter>
-        {collapsed && (
-          <div className="flex w-full justify-center">
-            <SidebarTrigger className="h-8 w-8 rounded-lg bg-accent text-accent-foreground hover:bg-accent/80">
-              <ChevronLeft className="h-4 w-4 rotate-180" />
-            </SidebarTrigger>
-          </div>
-        )}
-      </SidebarFooter>
+      <SidebarFooter />
     </Sidebar>
   );
 }
