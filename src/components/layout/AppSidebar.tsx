@@ -30,7 +30,7 @@ export function AppSidebar() {
     <Sidebar
       className={cn(
         "border-r border-sidebar-border transition-all duration-300",
-        collapsed ? "w-16" : "w-64"
+        collapsed ? "w-20" : "w-64"
       )}
       collapsible="icon"
     >
@@ -64,9 +64,7 @@ export function AppSidebar() {
               </div>
             )}
           </div>
-          <SidebarTrigger className="h-8 w-8 text-muted-foreground hover:text-foreground">
-            <ChevronLeft className={cn("h-4 w-4 transition-transform", collapsed && "rotate-180")} />
-          </SidebarTrigger>
+
         </div>
       </SidebarHeader>
 
