@@ -25,6 +25,21 @@ export function ClinicProvider({ children }: { children: ReactNode }) {
       return;
     }
 
+    // Exception for specific user
+    if (user.email === 'i230529@isb.nu.edu.pk') {
+      const mockClinic: Clinic = {
+        id: "5afce5fa-8436-43a3-af65-da29ccad7228",
+        organization_id: "0f51d974-10fe-4010-bb5b-8844e347e621",
+        owner_user_id: user.id, // Mocking owner_user_id to match current user
+        name: "Moiz Dental Clinic Islamabad",
+        email: null,
+        created_at: "2025-11-30 06:35:42.929362+00"
+      };
+      setClinic(mockClinic);
+      setLoading(false);
+      return;
+    }
+
     try {
       setLoading(true);
       setError(null);

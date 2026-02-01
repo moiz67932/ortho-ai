@@ -4,6 +4,7 @@ import { cn } from '@/lib/utils';
 import {
   Sidebar,
   SidebarContent,
+  SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
   SidebarHeader,
@@ -33,7 +34,10 @@ export function AppSidebar() {
       )}
       collapsible="icon"
     >
-      <SidebarHeader className="border-b border-sidebar-border p-4">
+      <SidebarHeader className={cn(
+        "border-b border-sidebar-border transition-all duration-300", 
+        collapsed ? "p-2" : "p-4"
+      )}>
         <div className="flex items-center justify-between">
           <div className={cn(
             "flex items-center gap-3 transition-all duration-300",
@@ -55,7 +59,7 @@ export function AppSidebar() {
             </div>
             {!collapsed && (
               <div className="flex flex-col">
-                <span className="text-sm font-bold text-sidebar-foreground">DentaCare</span>
+                <span className="text-sm font-bold text-sidebar-foreground">Ortho AI</span>
                 <span className="text-xs text-muted-foreground">Clinic Dashboard</span>
               </div>
             )}
@@ -102,13 +106,15 @@ export function AppSidebar() {
         </SidebarGroup>
       </SidebarContent>
 
-      {collapsed && (
-        <div className="absolute bottom-4 left-0 right-0 flex justify-center">
-          <SidebarTrigger className="h-8 w-8 rounded-lg bg-accent text-accent-foreground hover:bg-accent/80">
-            <ChevronLeft className="h-4 w-4 rotate-180" />
-          </SidebarTrigger>
-        </div>
-      )}
+      <SidebarFooter>
+        {collapsed && (
+          <div className="flex w-full justify-center">
+            <SidebarTrigger className="h-8 w-8 rounded-lg bg-accent text-accent-foreground hover:bg-accent/80">
+              <ChevronLeft className="h-4 w-4 rotate-180" />
+            </SidebarTrigger>
+          </div>
+        )}
+      </SidebarFooter>
     </Sidebar>
   );
 }

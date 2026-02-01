@@ -1,0 +1,101 @@
+table_schema,table_name,column_name,data_type,is_nullable,column_default
+auth,audit_log_entries,instance_id,uuid,YES,null
+auth,audit_log_entries,id,uuid,NO,null
+auth,audit_log_entries,payload,json,YES,null
+auth,audit_log_entries,created_at,timestamp with time zone,YES,null
+auth,audit_log_entries,ip_address,character varying,NO,''::character varying
+auth,flow_state,id,uuid,NO,null
+auth,flow_state,user_id,uuid,YES,null
+auth,flow_state,auth_code,text,NO,null
+auth,flow_state,code_challenge_method,USER-DEFINED,NO,null
+auth,flow_state,code_challenge,text,NO,null
+auth,flow_state,provider_type,text,NO,null
+auth,flow_state,provider_access_token,text,YES,null
+auth,flow_state,provider_refresh_token,text,YES,null
+auth,flow_state,created_at,timestamp with time zone,YES,null
+auth,flow_state,updated_at,timestamp with time zone,YES,null
+auth,flow_state,authentication_method,text,NO,null
+auth,flow_state,auth_code_issued_at,timestamp with time zone,YES,null
+auth,identities,provider_id,text,NO,null
+auth,identities,user_id,uuid,NO,null
+auth,identities,identity_data,jsonb,NO,null
+auth,identities,provider,text,NO,null
+auth,identities,last_sign_in_at,timestamp with time zone,YES,null
+auth,identities,created_at,timestamp with time zone,YES,null
+auth,identities,updated_at,timestamp with time zone,YES,null
+auth,identities,email,text,YES,null
+auth,identities,id,uuid,NO,gen_random_uuid()
+auth,instances,id,uuid,NO,null
+auth,instances,uuid,uuid,YES,null
+auth,instances,raw_base_config,text,YES,null
+auth,instances,created_at,timestamp with time zone,YES,null
+auth,instances,updated_at,timestamp with time zone,YES,null
+auth,mfa_amr_claims,session_id,uuid,NO,null
+auth,mfa_amr_claims,created_at,timestamp with time zone,NO,null
+auth,mfa_amr_claims,updated_at,timestamp with time zone,NO,null
+auth,mfa_amr_claims,authentication_method,text,NO,null
+auth,mfa_amr_claims,id,uuid,NO,null
+auth,mfa_challenges,id,uuid,NO,null
+auth,mfa_challenges,factor_id,uuid,NO,null
+auth,mfa_challenges,created_at,timestamp with time zone,NO,null
+auth,mfa_challenges,verified_at,timestamp with time zone,YES,null
+auth,mfa_challenges,ip_address,inet,NO,null
+auth,mfa_challenges,otp_code,text,YES,null
+auth,mfa_challenges,web_authn_session_data,jsonb,YES,null
+auth,mfa_factors,id,uuid,NO,null
+auth,mfa_factors,user_id,uuid,NO,null
+auth,mfa_factors,friendly_name,text,YES,null
+auth,mfa_factors,factor_type,USER-DEFINED,NO,null
+auth,mfa_factors,status,USER-DEFINED,NO,null
+auth,mfa_factors,created_at,timestamp with time zone,NO,null
+auth,mfa_factors,updated_at,timestamp with time zone,NO,null
+auth,mfa_factors,secret,text,YES,null
+auth,mfa_factors,phone,text,YES,null
+auth,mfa_factors,last_challenged_at,timestamp with time zone,YES,null
+auth,mfa_factors,web_authn_credential,jsonb,YES,null
+auth,mfa_factors,web_authn_aaguid,uuid,YES,null
+auth,mfa_factors,last_webauthn_challenge_data,jsonb,YES,null
+auth,oauth_authorizations,id,uuid,NO,null
+auth,oauth_authorizations,authorization_id,text,NO,null
+auth,oauth_authorizations,client_id,uuid,NO,null
+auth,oauth_authorizations,user_id,uuid,YES,null
+auth,oauth_authorizations,redirect_uri,text,NO,null
+auth,oauth_authorizations,scope,text,NO,null
+auth,oauth_authorizations,state,text,YES,null
+auth,oauth_authorizations,resource,text,YES,null
+auth,oauth_authorizations,code_challenge,text,YES,null
+auth,oauth_authorizations,code_challenge_method,USER-DEFINED,YES,null
+auth,oauth_authorizations,response_type,USER-DEFINED,NO,'code'::auth.oauth_response_type
+auth,oauth_authorizations,status,USER-DEFINED,NO,'pending'::auth.oauth_authorization_status
+auth,oauth_authorizations,authorization_code,text,YES,null
+auth,oauth_authorizations,created_at,timestamp with time zone,NO,now()
+auth,oauth_authorizations,expires_at,timestamp with time zone,NO,(now() + '00:03:00'::interval)
+auth,oauth_authorizations,approved_at,timestamp with time zone,YES,null
+auth,oauth_authorizations,nonce,text,YES,null
+auth,oauth_client_states,id,uuid,NO,null
+auth,oauth_client_states,provider_type,text,NO,null
+auth,oauth_client_states,code_verifier,text,YES,null
+auth,oauth_client_states,created_at,timestamp with time zone,NO,null
+auth,oauth_clients,id,uuid,NO,null
+auth,oauth_clients,client_secret_hash,text,YES,null
+auth,oauth_clients,registration_type,USER-DEFINED,NO,null
+auth,oauth_clients,redirect_uris,text,NO,null
+auth,oauth_clients,grant_types,text,NO,null
+auth,oauth_clients,client_name,text,YES,null
+auth,oauth_clients,client_uri,text,YES,null
+auth,oauth_clients,logo_uri,text,YES,null
+auth,oauth_clients,created_at,timestamp with time zone,NO,now()
+auth,oauth_clients,updated_at,timestamp with time zone,NO,now()
+auth,oauth_clients,deleted_at,timestamp with time zone,YES,null
+auth,oauth_clients,client_type,USER-DEFINED,NO,'confidential'::auth.oauth_client_type
+auth,oauth_consents,id,uuid,NO,null
+auth,oauth_consents,user_id,uuid,NO,null
+auth,oauth_consents,client_id,uuid,NO,null
+auth,oauth_consents,scopes,text,NO,null
+auth,oauth_consents,granted_at,timestamp with time zone,NO,now()
+auth,oauth_consents,revoked_at,timestamp with time zone,YES,null
+auth,one_time_tokens,id,uuid,NO,null
+auth,one_time_tokens,user_id,uuid,NO,null
+auth,one_time_tokens,token_type,USER-DEFINED,NO,null
+auth,one_time_tokens,token_hash,text,NO,null
+auth,one_time_tokens,relates_to,text,NO,null

@@ -34,7 +34,7 @@ const Index = () => {
                 <path d="M12 2a10 10 0 0 0-9.95 9h11.64L9.74 17.42A10 10 0 1 0 12 2z" />
               </svg>
             </div>
-            <span className="text-lg font-bold text-foreground">DentaCare</span>
+            <span className="text-lg font-bold text-foreground">Ortho AI</span>
           </div>
           <Button onClick={() => navigate('/login')} className="gap-2">
             Sign In
@@ -104,7 +104,7 @@ const Index = () => {
       {/* Footer */}
       <footer className="border-t border-border/50 py-8">
         <div className="container mx-auto px-4 text-center text-sm text-muted-foreground">
-          <p>&copy; 2024 DentaCare. All rights reserved.</p>
+          <p>&copy; 2024 Ortho AI. All rights reserved.</p>
         </div>
       </footer>
     </div>

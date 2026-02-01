@@ -54,7 +54,7 @@ const Login = () => {
               <path d="M12 2a10 10 0 0 0-9.95 9h11.64L9.74 17.42A10 10 0 1 0 12 2z" />
             </svg>
           </div>
-          <CardTitle className="text-2xl font-bold">Welcome to DentaCare</CardTitle>
+          <CardTitle className="text-2xl font-bold">Welcome to Ortho AI</CardTitle>
           <CardDescription className="text-muted-foreground">
             Sign in with your clinic's Google account
           </CardDescription>
