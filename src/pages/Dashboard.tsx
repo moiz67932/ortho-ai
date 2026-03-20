@@ -4,15 +4,17 @@ import { KPICard } from '@/components/dashboard/KPICard';
 import { AppointmentsTable } from '@/components/dashboard/AppointmentsTable';
 import { NextAppointmentCard } from '@/components/dashboard/NextAppointmentCard';
 import { useAppointments } from '@/hooks/useAppointments';
+import { useClinic } from '@/hooks/useClinic';
 import { Calendar, Clock, CalendarCheck, Bot } from 'lucide-react';
 import { isToday, isFuture, isAfter, parseISO } from 'date-fns';
+import { toZonedTime } from 'date-fns-tz';
 import type { Appointment } from '@/types/database';
 
 // Convert database appointment to display format
-const toDisplayAppointment = (apt: Appointment) => ({
+const toDisplayAppointment = (apt: Appointment, timezone: string) => ({
   id: apt.id,
   patientName: apt.patient_name,
-  appointmentTime: parseISO(apt.start_time),
+  appointmentTime: toZonedTime(parseISO(apt.start_time), timezone),
   reason: apt.reason || '',
   status: apt.status,
   source: apt.source,
@@ -20,6 +22,8 @@ const toDisplayAppointment = (apt: Appointment) => ({
 
 const Dashboard = () => {
   const { appointments, loading } = useAppointments();
+  const { clinic } = useClinic();
+  const clinicTimezone = clinic?.timezone ?? 'America/New_York';
 
   const todayAppointments = useMemo(
     () => appointments.filter((apt) => isToday(parseISO(apt.start_time))),
@@ -41,12 +45,12 @@ const Dashboard = () => {
     const futureAppointments = appointments
       .filter((apt) => isAfter(parseISO(apt.start_time), now) && apt.status === 'scheduled')
       .sort((a, b) => parseISO(a.start_time).getTime() - parseISO(b.start_time).getTime());
-    return futureAppointments[0] ? toDisplayAppointment(futureAppointments[0]) : null;
-  }, [appointments]);
+    return futureAppointments[0] ? toDisplayAppointment(futureAppointments[0], clinicTimezone) : null;
+  }, [appointments, clinicTimezone]);
 
   const displayTodayAppointments = useMemo(
-    () => todayAppointments.map(toDisplayAppointment),
-    [todayAppointments]
+    () => todayAppointments.map((apt) => toDisplayAppointment(apt, clinicTimezone)),
+    [todayAppointments, clinicTimezone]
   );
 
   return (

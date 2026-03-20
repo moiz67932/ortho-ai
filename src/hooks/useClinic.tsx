@@ -33,6 +33,7 @@ export function ClinicProvider({ children }: { children: ReactNode }) {
         owner_user_id: user.id, // Mocking owner_user_id to match current user
         name: "Moiz Dental Clinic Islamabad",
         email: null,
+        timezone: "America/New_York",
         created_at: "2025-11-30 06:35:42.929362+00"
       };
       setClinic(mockClinic);

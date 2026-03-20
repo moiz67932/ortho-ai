@@ -7,6 +7,7 @@ export interface Clinic {
   owner_user_id: string;
   name: string;
   email: string | null;
+  timezone: string;
   created_at: string;
 }
 
