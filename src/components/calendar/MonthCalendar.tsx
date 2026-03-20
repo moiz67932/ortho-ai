@@ -15,8 +15,6 @@ import {
 import { Appointment } from '@/types/appointments';
 import { AppointmentPill } from './AppointmentPill';
 import { AppointmentModal } from './AppointmentModal';
-import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -32,11 +30,10 @@ export function MonthCalendar({ appointments }: MonthCalendarProps) {
   const [modalOpen, setModalOpen] = useState(false);
 
   const calendarDays = useMemo(() => {
-    const monthStart = startOfMonth(currentMonth);
-    const monthEnd = endOfMonth(currentMonth);
+    const monthStart    = startOfMonth(currentMonth);
+    const monthEnd      = endOfMonth(currentMonth);
     const calendarStart = startOfWeek(monthStart);
-    const calendarEnd = endOfWeek(monthEnd);
-
+    const calendarEnd   = endOfWeek(monthEnd);
     return eachDayOfInterval({ start: calendarStart, end: calendarEnd });
   }, [currentMonth]);
 
@@ -44,9 +41,7 @@ export function MonthCalendar({ appointments }: MonthCalendarProps) {
     const map = new Map<string, Appointment[]>();
     appointments.forEach((apt) => {
       const key = format(apt.appointmentTime, 'yyyy-MM-dd');
-      if (!map.has(key)) {
-        map.set(key, []);
-      }
+      if (!map.has(key)) map.set(key, []);
       map.get(key)!.push(apt);
     });
     return map;
@@ -62,75 +57,179 @@ export function MonthCalendar({ appointments }: MonthCalendarProps) {
 
   return (
     <>
-      <Card className="overflow-hidden">
-        <div className="flex items-center justify-between border-b border-border p-4">
-          <h2 className="text-lg font-semibold text-foreground">
+      <div
+        className="overflow-hidden rounded-xl border"
+        style={{
+          background: 'var(--bg-surface)',
+          borderColor: 'var(--border-subtle)',
+          boxShadow: 'var(--shadow-card)',
+        }}
+      >
+        {/* Calendar header */}
+        <div
+          className="flex items-center justify-between px-6 py-[18px]"
+          style={{ borderBottom: '1px solid var(--border-subtle)' }}
+        >
+          <h2
+            style={{
+              fontFamily: 'DM Sans, sans-serif',
+              fontSize: '18px',
+              fontWeight: 700,
+              color: 'var(--text-primary)',
+              letterSpacing: '-0.02em',
+            }}
+          >
             {format(currentMonth, 'MMMM yyyy')}
           </h2>
+
           <div className="flex items-center gap-2">
-            <Button
-              variant="outline"
-              size="icon"
+            {/* Prev button */}
+            <button
               onClick={handlePrevMonth}
-              className="h-8 w-8"
+              className="flex h-8 w-8 items-center justify-center rounded-full border transition-colors duration-150"
+              style={{ borderColor: 'var(--border-medium)', color: 'var(--text-secondary)' }}
+              onMouseEnter={(e) => {
+                const el = e.currentTarget;
+                el.style.borderColor = 'var(--text-teal)';
+                el.style.color = 'var(--text-teal)';
+                el.style.background = 'var(--bg-teal-dim)';
+              }}
+              onMouseLeave={(e) => {
+                const el = e.currentTarget;
+                el.style.borderColor = 'var(--border-medium)';
+                el.style.color = 'var(--text-secondary)';
+                el.style.background = 'transparent';
+              }}
             >
-              <ChevronLeft className="h-4 w-4" />
-            </Button>
-            <Button
-              variant="outline"
-              size="sm"
+              <ChevronLeft style={{ width: '14px', height: '14px' }} />
+            </button>
+
+            {/* Today button */}
+            <button
               onClick={() => setCurrentMonth(new Date())}
-              className="h-8 px-3 text-xs"
+              className="rounded-md border-none px-3.5 py-1.5 transition-all duration-150"
+              style={{
+                background: 'var(--bg-teal)',
+                color: 'white',
+                fontFamily: 'IBM Plex Sans, sans-serif',
+                fontSize: '12px',
+                fontWeight: 600,
+              }}
+              onMouseEnter={(e) => {
+                const el = e.currentTarget;
+                el.style.background = '#0F766E';
+                el.style.boxShadow = 'var(--shadow-ring-teal)';
+              }}
+              onMouseLeave={(e) => {
+                const el = e.currentTarget;
+                el.style.background = 'var(--bg-teal)';
+                el.style.boxShadow = 'none';
+              }}
             >
               Today
-            </Button>
-            <Button
-              variant="outline"
-              size="icon"
+            </button>
+
+            {/* Next button */}
+            <button
               onClick={handleNextMonth}
-              className="h-8 w-8"
+              className="flex h-8 w-8 items-center justify-center rounded-full border transition-colors duration-150"
+              style={{ borderColor: 'var(--border-medium)', color: 'var(--text-secondary)' }}
+              onMouseEnter={(e) => {
+                const el = e.currentTarget;
+                el.style.borderColor = 'var(--text-teal)';
+                el.style.color = 'var(--text-teal)';
+                el.style.background = 'var(--bg-teal-dim)';
+              }}
+              onMouseLeave={(e) => {
+                const el = e.currentTarget;
+                el.style.borderColor = 'var(--border-medium)';
+                el.style.color = 'var(--text-secondary)';
+                el.style.background = 'transparent';
+              }}
             >
-              <ChevronRight className="h-4 w-4" />
-            </Button>
+              <ChevronRight style={{ width: '14px', height: '14px' }} />
+            </button>
           </div>
         </div>
 
-        <div className="grid grid-cols-7">
+        {/* Day-of-week headers */}
+        <div
+          className="grid grid-cols-7"
+          style={{ borderBottom: '1px solid var(--border-subtle)', background: 'var(--bg-surface-raised)' }}
+        >
           {WEEKDAYS.map((day) => (
             <div
               key={day}
-              className="border-b border-r border-border bg-muted/30 p-2 text-center text-xs font-semibold text-muted-foreground"
+              className="pb-3 pt-2.5 text-center"
+              style={{
+                fontFamily: 'IBM Plex Sans, sans-serif',
+                fontSize: '13px',
+                fontWeight: 600,
+                color: 'var(--text-tertiary)',
+                textTransform: 'uppercase',
+                letterSpacing: '0.1em',
+              }}
             >
               {day}
             </div>
           ))}
         </div>
 
+        {/* Calendar grid */}
         <div className="grid grid-cols-7">
           {calendarDays.map((day, index) => {
-            const dayKey = format(day, 'yyyy-MM-dd');
+            const dayKey          = format(day, 'yyyy-MM-dd');
             const dayAppointments = appointmentsByDay.get(dayKey) || [];
-            const isCurrentMonth = isSameMonth(day, currentMonth);
+            const isCurrentMonth  = isSameMonth(day, currentMonth);
+            const isWeekend       = day.getDay() === 0 || day.getDay() === 6;
+            const today           = isToday(day);
 
             return (
               <div
                 key={index}
-                className={cn(
-                  "min-h-[100px] border-b border-r border-border p-1.5 transition-colors",
-                  !isCurrentMonth && "bg-muted/20",
-                  isToday(day) && "bg-primary/5"
-                )}
+                className="animate-fade-in"
+                style={{
+                  minHeight: '110px',
+                  borderRight: (index + 1) % 7 !== 0 ? '1px solid var(--border-subtle)' : 'none',
+                  borderBottom: '1px solid var(--border-subtle)',
+                  padding: '10px 10px',
+                  background: isWeekend
+                    ? 'rgba(26,35,50,0.015)'
+                    : !isCurrentMonth
+                    ? 'rgba(26,35,50,0.008)'
+                    : 'transparent',
+                }}
               >
+                {/* Day number */}
                 <div
                   className={cn(
-                    "mb-1 flex h-7 w-7 items-center justify-center rounded-full text-sm",
-                    isToday(day) && "bg-primary text-primary-foreground font-semibold",
-                    !isCurrentMonth && "text-muted-foreground"
+                    'mb-1.5 flex h-7 w-7 items-center justify-center',
+                    today && 'rounded-full'
                   )}
+                  style={
+                    today
+                      ? {
+                          background: 'var(--bg-teal)',
+                          fontFamily: 'DM Sans, sans-serif',
+                          fontSize: '13px',
+                          fontWeight: 600,
+                          color: 'white',
+                        }
+                      : {
+                          fontFamily: 'DM Sans, sans-serif',
+                          fontSize: '13px',
+                          fontWeight: 600,
+                          color: !isCurrentMonth
+                            ? 'rgba(148,163,184,0.4)'
+                            : 'var(--text-secondary)',
+                        }
+                  }
                 >
                   {format(day, 'd')}
                 </div>
-                <div className="space-y-1">
+
+                {/* Appointment pills */}
+                <div className="space-y-0.5">
                   {dayAppointments.slice(0, 3).map((apt) => (
                     <AppointmentPill
                       key={apt.id}
@@ -139,16 +238,31 @@ export function MonthCalendar({ appointments }: MonthCalendarProps) {
                     />
                   ))}
                   {dayAppointments.length > 3 && (
-                    <p className="text-xs text-muted-foreground pl-2">
+                    <button
+                      className="pl-1 transition-colors duration-100"
+                      style={{
+                        fontFamily: 'IBM Plex Mono, monospace',
+                        fontSize: '12px',
+                        fontWeight: 500,
+                        color: 'var(--text-tertiary)',
+                        background: 'none',
+                        border: 'none',
+                        cursor: 'pointer',
+                        padding: '0 0 0 4px',
+                      }}
+                      onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--text-teal)')}
+                      onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--text-tertiary)')}
+                      onClick={() => handleAppointmentClick(dayAppointments[3])}
+                    >
                       +{dayAppointments.length - 3} more
-                    </p>
+                    </button>
                   )}
                 </div>
               </div>
             );
           })}
         </div>
-      </Card>
+      </div>
 
       <AppointmentModal
         appointment={selectedAppointment}

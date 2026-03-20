@@ -1,6 +1,4 @@
-import { Badge } from '@/components/ui/badge';
 import { AppointmentSource } from '@/types/appointments';
-import { Bot, User } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface SourceBadgeProps {
@@ -10,20 +8,43 @@ interface SourceBadgeProps {
 
 export function SourceBadge({ source, className }: SourceBadgeProps) {
   const isAI = source === 'ai';
-  
+
+  if (isAI) {
+    return (
+      <span
+        className={cn('inline-flex items-center gap-1 rounded', className)}
+        style={{
+          background: 'var(--bg-teal-dim)',
+          color: 'var(--text-teal)',
+          border: '1px solid var(--border-teal)',
+          padding: '2px 8px',
+          fontSize: '11px',
+          fontFamily: 'IBM Plex Sans, sans-serif',
+          fontWeight: 500,
+          whiteSpace: 'nowrap',
+        }}
+      >
+        <span style={{ fontSize: '8px' }}>✦</span>
+        AI
+      </span>
+    );
+  }
+
   return (
-    <Badge 
-      variant="outline" 
-      className={cn(
-        "font-medium gap-1",
-        isAI 
-          ? "bg-primary/10 text-primary hover:bg-primary/20 border-primary/20" 
-          : "bg-muted text-muted-foreground hover:bg-muted/80 border-border",
-        className
-      )}
+    <span
+      className={cn('inline-flex items-center rounded', className)}
+      style={{
+        background: '#F1F5F9',
+        color: '#64748B',
+        border: '1px solid rgba(100,116,139,0.2)',
+        padding: '2px 8px',
+        fontSize: '11px',
+        fontFamily: 'IBM Plex Sans, sans-serif',
+        fontWeight: 500,
+        whiteSpace: 'nowrap',
+      }}
     >
-      {isAI ? <Bot className="h-3 w-3" /> : <User className="h-3 w-3" />}
-      {isAI ? 'AI' : 'Manual'}
-    </Badge>
+      Manual
+    </span>
   );
 }

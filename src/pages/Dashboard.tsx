@@ -57,7 +57,7 @@ const Dashboard = () => {
     <DashboardLayout title="Dashboard">
       <div className="space-y-6">
         {/* KPI Cards */}
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="kpi-grid grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           <KPICard
             title="Today's Appointments"
             value={todayAppointments.length}
@@ -81,6 +81,7 @@ const Dashboard = () => {
             value={aiBookedAppointments.length}
             icon={Bot}
             loading={loading}
+            accent
           />
         </div>
 

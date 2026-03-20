@@ -1,30 +1,38 @@
-import { Appointment, AppointmentStatus } from '@/types/appointments';
+import { Appointment } from '@/types/appointments';
 import { format } from 'date-fns';
-import { cn } from '@/lib/utils';
 
 interface AppointmentPillProps {
   appointment: Appointment;
   onClick?: () => void;
 }
 
-const statusColors: Record<AppointmentStatus, string> = {
-  scheduled: 'bg-status-scheduled/20 text-status-scheduled border-status-scheduled/30',
-  completed: 'bg-status-completed/20 text-status-completed border-status-completed/30',
-  cancelled: 'bg-status-cancelled/20 text-status-cancelled border-status-cancelled/30',
-  rescheduled: 'bg-status-rescheduled/20 text-status-rescheduled border-status-rescheduled/30',
-};
-
 export function AppointmentPill({ appointment, onClick }: AppointmentPillProps) {
   return (
     <button
       onClick={onClick}
-      className={cn(
-        "w-full truncate rounded-full border px-2 py-0.5 text-left text-xs font-medium transition-all duration-200 hover:scale-[1.02] hover:shadow-sm",
-        statusColors[appointment.status]
-      )}
+      className="w-full truncate text-left transition-colors duration-100"
+      style={{
+        background: 'var(--bg-teal-dim)',
+        borderLeft: '3px solid var(--bg-teal)',
+        borderRadius: '0 4px 4px 0',
+        padding: '3px 8px',
+        fontFamily: 'IBM Plex Mono, monospace',
+        fontSize: '12.5px',
+        fontWeight: 500,
+        color: '#0C7A72',
+        display: 'block',
+        overflow: 'hidden',
+        textOverflow: 'ellipsis',
+        whiteSpace: 'nowrap',
+      }}
+      onMouseEnter={(e) => {
+        (e.currentTarget as HTMLButtonElement).style.background = 'rgba(13,148,136,0.12)';
+      }}
+      onMouseLeave={(e) => {
+        (e.currentTarget as HTMLButtonElement).style.background = 'var(--bg-teal-dim)';
+      }}
     >
-      <span className="mr-1">{format(appointment.appointmentTime, 'h:mm a')}</span>
-      <span className="truncate">{appointment.patientName}</span>
+      {format(appointment.appointmentTime, 'h:mm a')} {appointment.patientName}
     </button>
   );
 }

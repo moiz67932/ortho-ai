@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx tsc:*)",
+      "Bash(npx vite:*)",
+      "Bash(grep -c \"purple\\\\|#7C3AED\\\\|#8B5CF6\\\\|violet\\\\|font-inter\\\\|font-[''''\"\"]Inter\" src/index.css src/components/**/*.tsx src/pages/*.tsx)"
+    ]
+  }
+}

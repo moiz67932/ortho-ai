@@ -1,5 +1,3 @@
-import { Card, CardContent } from '@/components/ui/card';
-import { Skeleton } from '@/components/ui/skeleton';
 import { LucideIcon } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -7,57 +5,101 @@ interface KPICardProps {
   title: string;
   value: string | number;
   icon: LucideIcon;
-  trend?: {
-    value: number;
-    isPositive: boolean;
-  };
+  trend?: { value: number; isPositive: boolean };
   loading?: boolean;
   className?: string;
+  accent?: boolean; /* true = AI Booked teal treatment */
 }
 
-export function KPICard({ title, value, icon: Icon, trend, loading, className }: KPICardProps) {
+export function KPICard({ title, value, icon: Icon, loading, className, accent }: KPICardProps) {
   if (loading) {
     return (
-      <Card className={cn("overflow-hidden", className)}>
-        <CardContent className="p-6">
-          <div className="flex items-center justify-between">
-            <div className="space-y-2">
-              <Skeleton className="h-4 w-24" />
-              <Skeleton className="h-8 w-16" />
-            </div>
-            <Skeleton className="h-12 w-12 rounded-xl" />
+      <div
+        className={cn('rounded-xl border p-6', className)}
+        style={{
+          background: 'var(--bg-surface)',
+          borderColor: 'var(--border-subtle)',
+          boxShadow: 'var(--shadow-card)',
+        }}
+      >
+        <div className="flex items-start justify-between">
+          <div className="space-y-2">
+            <div className="h-2.5 w-20 animate-pulse rounded" style={{ background: 'var(--border-medium)' }} />
+            <div className="h-10 w-12 animate-pulse rounded" style={{ background: 'var(--border-subtle)' }} />
           </div>
-        </CardContent>
-      </Card>
+          <div className="h-4 w-4 animate-pulse rounded" style={{ background: 'var(--border-medium)' }} />
+        </div>
+      </div>
     );
   }
 
   return (
-    <Card className={cn(
-      "overflow-hidden transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5",
-      className
-    )}>
-      <CardContent className="p-6">
-        <div className="flex items-center justify-between">
-          <div className="space-y-1">
-            <p className="text-sm font-medium text-muted-foreground">{title}</p>
-            <div className="flex items-baseline gap-2">
-              <h3 className="text-3xl font-bold text-foreground">{value}</h3>
-              {trend && (
-                <span className={cn(
-                  "text-xs font-medium",
-                  trend.isPositive ? "text-status-completed" : "text-destructive"
-                )}>
-                  {trend.isPositive ? '+' : ''}{trend.value}%
-                </span>
-              )}
-            </div>
-          </div>
-          <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10">
-            <Icon className="h-6 w-6 text-primary" />
-          </div>
-        </div>
-      </CardContent>
-    </Card>
+    <div
+      className={cn(
+        'animate-fade-up rounded-xl border p-6 transition-colors duration-150',
+        className
+      )}
+      style={{
+        background: accent ? 'var(--bg-teal-dim)' : 'var(--bg-surface)',
+        borderColor: accent ? 'var(--border-teal)' : 'var(--border-subtle)',
+        boxShadow: 'var(--shadow-card)',
+      }}
+      onMouseEnter={(e) => {
+        (e.currentTarget as HTMLDivElement).style.borderColor = accent
+          ? 'rgba(13,148,136,0.5)'
+          : 'var(--border-medium)';
+      }}
+      onMouseLeave={(e) => {
+        (e.currentTarget as HTMLDivElement).style.borderColor = accent
+          ? 'var(--border-teal)'
+          : 'var(--border-subtle)';
+      }}
+    >
+      {/* Top row: label + icon */}
+      <div className="flex items-start justify-between">
+        <p
+          className="text-[11px] uppercase"
+          style={{
+            fontFamily: 'IBM Plex Sans, sans-serif',
+            fontWeight: 400,
+            color: accent ? 'var(--text-teal)' : 'var(--text-tertiary)',
+            letterSpacing: '0.06em',
+          }}
+        >
+          {accent && <span className="mr-1 text-[#0D9488]" style={{ fontSize: '8px' }}>✦</span>}
+          {title}
+        </p>
+        <Icon
+          style={{
+            width: '16px',
+            height: '16px',
+            color: accent ? 'var(--text-teal)' : 'var(--text-tertiary)',
+          }}
+        />
+      </div>
+
+      {/* Spacer */}
+      <div className="mt-2" />
+
+      {/* Value — the "wow" moment */}
+      <p
+        className="leading-none"
+        style={{
+          fontFamily: 'DM Sans, sans-serif',
+          fontSize: '40px',
+          fontWeight: 300,
+          color: accent ? 'var(--bg-teal)' : 'var(--text-primary)',
+          letterSpacing: '-0.04em',
+        }}
+      >
+        {value}
+      </p>
+
+      {/* Decorative trend line */}
+      <div
+        className="mt-3 h-px w-12 rounded-full"
+        style={{ background: accent ? 'var(--bg-teal)' : 'var(--border-medium)' }}
+      />
+    </div>
   );
 }
